@@ -1,0 +1,32 @@
+name: Noticias EV diarias
+
+# Cuándo se ejecuta
+on:
+  schedule:
+    # GitHub usa hora UTC. Colombia es UTC-5.
+    # 12:00 UTC = 7:00 a.m. en Colombia.
+    - cron: "0 12 * * *"
+  workflow_dispatch: {}   # permite ejecutarlo manualmente con un botón
+
+jobs:
+  enviar-noticias:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Instalar dependencias
+        run: pip install -r requirements.txt
+
+      - name: Ejecutar el agente
+        env:
+          GMAIL_USER: ${{ secrets.GMAIL_USER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+          RECIPIENTS: ${{ secrets.RECIPIENTS }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python main.py
