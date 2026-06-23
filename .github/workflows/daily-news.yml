@@ -4,8 +4,8 @@ name: Noticias EV diarias
 on:
   schedule:
     # GitHub usa hora UTC. Colombia es UTC-5.
-    # 12:00 UTC = 7:00 a.m. en Colombia.
-    - cron: "0 12 * * *"
+    # 12:00 UTC = 8:00 a.m. en Colombia.
+    - cron: "0 13 * * *"
   workflow_dispatch: {}   # permite ejecutarlo manualmente con un botón
 
 jobs:
